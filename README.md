@@ -1,6 +1,8 @@
-**twims**
+##twims
 
 A simple SMS messenger for the commandline.
+
+* Dependancies
 
 * Install
 	
