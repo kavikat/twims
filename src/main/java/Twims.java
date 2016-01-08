@@ -3,56 +3,38 @@ import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.factory.MessageFactory;
 import com.twilio.sdk.resource.instance.Message;
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;/*
-* */
+import org.apache.http.message.BasicNameValuePair;
+/**/
 import java.util.*;
 /**
  * Created by kt on 12/23/15.
  */
 public class Twims {
-
-    private String tid, token;
-
-    public Twims(String newID, String newToken){
-
-        tid = newID;
-        token = newToken;
-    }
-
-    public static void main(String[]args){
+    public static void main(String[] args) throws TwilioRestException {
 
         Scanner sc = new Scanner(System.in);
-
-        System.out.print("Twilio ID#: ");
+        /* Account SID & AUTH Token values require a twilio account */
+        System.out.print("ACCOUNT SID: ");
         String tid = sc.next();
-        System.out.print("Token: ");
+        System.out.print("AUTH TOKEN: ");
         String token = sc.next();
+        /* Messaging phone number provided by twilio */
+        System.out.print("Messaging Phone Number: ");
+        String mpn = sc.next();
+        System.out.print("Recepient's #: ");
+        String rnum = sc.next();
+        System.out.print("Message : ");
+        String msg = sc.next();
 
-        Twims newMsg = new Twims(tid, token);
-        /*TODO create connection*/
-         /*TODO parse message*/
         TwilioRestClient client = new TwilioRestClient(tid, token);
 
-        System.out.println("TID: "+newMsg.getTid());
-        System.out.println("Token: "+newMsg.getToken());
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("Body", msg));
+        params.add(new BasicNameValuePair("To", rnum));
+        params.add(new BasicNameValuePair("From", mpn));
+
         MessageFactory messageFactory = client.getAccount().getMessageFactory();
         Message message = messageFactory.create(params);
         System.out.println(message.getSid());
     }//main
-
-    public String getTid() {
-        return tid;
-    }
-
-    public void setTid(String tid) {
-        this.tid = tid;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-}
+}//twims
